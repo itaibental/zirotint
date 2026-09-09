@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>הכל בכף היד · לומדת תקשורת וחברה לבגרות</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-amber-400 selection:text-slate-950">
+
+  <div id="screenFlashOverlay" class="fixed inset-0 bg-rose-600 pointer-events-none z-50 opacity-0"></div>
+  <div id="celebrationOverlay" class="fixed inset-0 pointer-events-none z-50 overflow-hidden"></div>
+
+  <!-- Header and Branding Bar -->
+  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3 cursor-pointer" id="brandLogoHome">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-amber-500/20">
+          ✋
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-black tracking-wide text-white">הכל בכף היד</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-800 font-bold">תקשורת וחברה לבגרות</span>
+          </div>
+          <p class="text-[11px] text-slate-400">לומדה אינטראקטיבית מותאמת לכיתות י' וי"א</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <button id="cloudStatusBtn" class="px-2.5 py-1.5 rounded-xl bg-slate-800/80 text-slate-300 border border-slate-700 text-xs font-bold flex items-center gap-1.5 hover:bg-slate-800 transition" title="סטטוס ענן">
+          <span>☁️</span>
+          <span class="hidden sm:inline">סנכרון ענן</span>
+        </button>
+
+        <button id="navHomeBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs sm:text-sm transition flex items-center gap-1.5">
+          <span>🏠</span>
+          <span>עמוד הבית</span>
+        </button>
+
+        <button id="navLessonBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs sm:text-sm transition flex items-center gap-1.5">
+          <span>📖</span>
+          <span>שיעור בכרטיסיות</span>
+        </button>
+
+        <button id="navQuizBtn" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm transition flex items-center gap-1.5 shadow-sm">
+          <span>🎯</span>
+          <span>שאלון תרגול</span>
+        </button>
+
+        <button id="navTeacherBtn" class="px-3 py-1.5 rounded-xl bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 border border-indigo-700 font-bold text-xs sm:text-sm transition flex items-center gap-1.5">
+          <span>🔒</span>
+          <span>אזור המורה</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-2.5 border-t border-slate-800/80">
+      <div class="relative max-w-xl mx-auto" id="globalSearchWrap">
+        <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm pointer-events-none">🔍</span>
+        <input type="text" id="globalSearchInput" autocomplete="off" placeholder="חיפוש מושג מכל הזירות... (למשל: פוליסמיות, גלוקליזציה, סאטירה)" class="w-full pr-10 pl-4 py-2.5 rounded-2xl bg-slate-900 border border-slate-700 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500">
+        <div id="globalSearchResults" class="hidden absolute z-50 mt-2 w-full max-h-80 overflow-y-auto bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl divide-y divide-slate-800 text-right">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-2 border-t border-slate-800/80 flex items-center gap-1.5 overflow-x-auto text-xs font-bold scrollbar-none" id="modulesTabsContainer">
+      <!-- Generated dynamically by JS -->
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6">
+
+    <section id="viewHome" class="space-y-8">
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-900 border border-indigo-900/60 p-6 sm:p-10 shadow-2xl">
+        <div class="relative z-10 max-w-2xl space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-bold">
+            <span>✨</span>
+            <span>הכנה מלאה לבחינת הבגרות בתקשורת</span>
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+            לומדים תקשורת וחברה <span class="text-amber-400">בגובה העיניים</span>
+          </h1>
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+            כל המושגים החשובים מתוך אגרון "הכל בכף היד" מחולקים ללומדות קצרות, כרטיסיות הסבר מונפשות, שאלות אמריקאיות עם רמזים ומשובים מיידיים, ומערכת מעקב ציונים בענן.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <button id="heroStartQuizBtn" class="px-5 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm transition shadow-lg shadow-amber-500/20 active:scale-95 flex items-center gap-2">
+              <span>🎯</span>
+              <span>התחלת תרגול בשאלון</span>
+            </button>
+            <button id="heroStartLessonBtn" class="px-5 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 transition active:scale-95 flex items-center gap-2">
+              <span>📖</span>
+              <span>קריאת השיעור בכרטיסיות</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arena Tiles Hub -->
+      <div class="space-y-4" id="homeArenasSection">
+        <div>
+          <h2 class="text-xl font-black text-white flex items-center gap-2">
+            <span>🗂️</span>
+            <span>מרכז הזירות והמושגים</span>
+          </h2>
+          <p class="text-xs text-slate-400">בחרו זירה כדי לראות את כל המושגים שבתוכה, או חפשו מושג ספציפי בחיפוש שבראש הדף</p>
+        </div>
+
+        <div id="arenaTilesContainer" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Concepts within a selected arena -->
+      <div class="space-y-4 hidden" id="homeConceptsSection">
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="backToArenasBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition flex items-center gap-1.5 shrink-0">
+            <span>➡️</span>
+            <span>כל הזירות</span>
+          </button>
+          <h2 id="selectedArenaTitle" class="text-lg font-black text-white flex items-center gap-2">
+            <!-- Populated by JS -->
+          </h2>
+        </div>
+
+        <div id="homeConceptsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <section id="viewLesson" class="hidden space-y-6">
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+        <div>
+          <span id="lessonArenaBadge" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-800">זירה</span>
+          <h2 id="lessonTitle" class="text-xl font-black text-white mt-1">שם השיעור</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-bold" id="cardCounterText">עמוד 1 מתוך 5</span>
+          <button id="quickJumpToQuizBtn" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition flex items-center gap-1.5 shadow-sm">
+            <span>🎯</span>
+            <span>עבור לשאלון</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Floating Slide Container -->
+      <div class="relative bg-white text-slate-900 rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-2xl min-h-[420px] flex flex-col justify-between transition-all duration-300" id="lessonSlideCard">
+        <div id="slideContentArea" class="space-y-4">
+          <!-- Slide Content injected by JS -->
+        </div>
+
+        <!-- Slide Navigation Controls -->
+        <div class="pt-8 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 mt-6">
+          <button id="prevSlideBtn" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition flex items-center gap-1.5 disabled:opacity-30 disabled:pointer-events-none">
+            <span>➡️</span>
+            <span>לעמוד הקודם</span>
+          </button>
+
+          <!-- Dots Indicator -->
+          <div class="flex items-center gap-1.5" id="slideDotsContainer">
+            <!-- Dots by JS -->
+          </div>
+
+          <button id="nextSlideBtn" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs sm:text-sm transition flex items-center gap-1.5 shadow-md shadow-indigo-600/20">
+            <span>לעמוד הבא</span>
+            <span>⬅️</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="viewQuiz" class="hidden space-y-6">
+      
+      <!-- Student Identity Input Screen (shown first before quiz begins) -->
+      <div id="quizStudentGate" class="bg-white text-slate-900 rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-2xl max-w-xl mx-auto space-y-5 text-right">
+        <div class="text-center space-y-2">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl font-black shadow-inner">
+            📝
+          </div>
+          <h2 class="text-2xl font-black text-slate-900" id="gateQuizTitle">שאלון תרגול</h2>
+          <p class="text-xs text-slate-500">רשמו את הפרטים כדי שהציון והמשוב יישמרו בלוח המורה</p>
+        </div>
+
+        <div class="space-y-3 pt-2">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">שם מלא של התלמיד/ה:</label>
+            <input type="text" id="studentNameInput" placeholder="לדוגמה: יובל כהן" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">כיתה:</label>
+            <select id="studentClassSelect" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              <option value="י' 1">כיתה י' 1</option>
+              <option value="י' 2">כיתה י' 2</option>
+              <option value="י' 3">כיתה י' 3</option>
+              <option value="י' 4">כיתה י' 4</option>
+              <option value="י&quot;א 1">כיתה י"א 1</option>
+              <option value="י&quot;א 2">כיתה י"א 2</option>
+              <option value="י&quot;א 3">כיתה י"א 3</option>
+            </select>
+          </div>
+          <div id="gateErrorMsg" class="hidden text-xs font-bold text-rose-600 bg-rose-50 p-2.5 rounded-xl"></div>
+        </div>
+
+        <button id="startQuestionsBtn" class="w-full py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm transition shadow-lg shadow-amber-500/20 active:scale-98">
+          התחילו את השאלון עכשיו 🚀
+        </button>
+      </div>
+
+      <!-- Active Question Screen -->
+      <div id="quizActiveContainer" class="hidden space-y-4 max-w-3xl mx-auto">
+        <!-- Progress Bar and Score Indicator -->
+        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-amber-400" id="quizProgressLabel">שאלה 1 מתוך 10</span>
+            <span class="text-slate-500">|</span>
+            <span class="text-slate-300" id="activeStudentBadge">תלמיד: </span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-slate-400">ניקוד נוכחי:</span>
+            <span class="font-black text-emerald-400 text-sm" id="liveScoreBadge">0/100</span>
+          </div>
+          <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mt-1">
+            <div id="progressBarFill" class="bg-gradient-to-l from-amber-400 to-amber-500 h-full transition-all duration-300 w-0"></div>
+          </div>
+        </div>
+
+        <div id="currentQuestionCard" class="bg-white text-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl space-y-6 transition-all duration-300">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold" id="qCategoryBadge">שאלת סיטואציה</span>
+              <button id="showHintBtn" type="button" class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-bold border border-amber-200 transition flex items-center gap-1.5">
+                <span>💡</span>
+                <span>צריכים רמז?</span>
+              </button>
+            </div>
+            <h3 id="questionText" class="text-base sm:text-lg font-black text-slate-900 leading-relaxed">
+              תוכן השאלה ייטען כאן...
+            </h3>
+          </div>
+
+          <!-- Hint box (hidden initially) -->
+          <div id="hintBox" class="hidden p-3.5 rounded-2xl bg-amber-50/90 border border-amber-200 text-xs text-amber-900 leading-relaxed font-medium">
+            <span class="font-bold">רמז מכוון:</span> <span id="hintContentText"></span>
+          </div>
+
+          <!-- Options Container -->
+          <div id="optionsContainer" class="space-y-2.5">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Feedback Box -->
+          <div id="feedbackBox" class="hidden p-4 rounded-2xl text-xs sm:text-sm font-medium leading-relaxed border space-y-2">
+            <div id="feedbackTitle" class="font-black text-sm flex items-center gap-1.5"></div>
+            <p id="feedbackExplanation"></p>
+          </div>
+
+          <!-- Next Question Button -->
+          <button id="nextQuestionBtn" class="hidden w-full py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm transition shadow-lg shadow-indigo-600/20 active:scale-98">
+            לשאלה הבאה ⬅️
+          </button>
+        </div>
+      </div>
+
+      <div id="quizSummaryContainer" class="hidden bg-white text-slate-900 rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-2xl max-w-xl mx-auto space-y-6 text-center">
+        <div class="w-20 h-20 mx-auto rounded-3xl bg-amber-100 text-amber-600 flex items-center justify-center text-4xl shadow-inner" id="resultEmojiBadge">
+          🏆
+        </div>
+        <div class="space-y-1">
+          <h2 class="text-2xl font-black text-slate-900">סיימתם את המטלה בהצלחה!</h2>
+          <p class="text-xs text-slate-500" id="resultSubtitle">כל הכבוד על ההשקעה והלמידה</p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+          <div class="text-xs text-slate-500 font-bold">הציון הסופי שלך:</div>
+          <div class="text-5xl font-black text-indigo-700" id="finalGradeText">100</div>
+          <div class="text-xs text-slate-600 font-semibold" id="correctCountSummary">10 מתוך 10 שאלות נכונות</div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <button id="restartQuizBtn" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition">
+            תרגלו שוב 🔄
+          </button>
+          <button id="summaryGoHomeBtn" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition shadow-sm">
+            לשאר המושגים 📚
+          </button>
+          <button id="summaryGoTeacherBtn" class="px-5 py-2.5 rounded-xl bg-indigo-900 hover:bg-indigo-800 text-white font-bold text-xs transition">
+            מעבר ללוח הציונים 📊
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="viewTeacher" class="hidden space-y-6">
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900/80 p-5 rounded-3xl border border-slate-800">
+        <div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 uppercase">אזור מורה מוגן</span>
+          <h2 class="text-xl font-black text-white mt-1">דשבורד מעקב ציונים ומחולל שאלונים</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="lockDashboardBtn" class="px-3 py-1.5 rounded-xl bg-rose-950/80 text-rose-300 border border-rose-800 text-xs font-bold hover:bg-rose-900 transition flex items-center gap-1">
+            <span>🔒</span>
+            <span>נעילה ויציאה</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics KPIs -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
+          <div class="text-[11px] text-slate-400 font-bold">סך הגשות תלמידים</div>
+          <div class="text-2xl font-black text-amber-400" id="metricSubmissionsCount">0</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
+          <div class="text-[11px] text-slate-400 font-bold">ממוצע כיתתי</div>
+          <div class="text-2xl font-black text-emerald-400" id="metricClassAverage">0</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
+          <div class="text-[11px] text-slate-400 font-bold">ציון שיא שנרשם</div>
+          <div class="text-2xl font-black text-cyan-400" id="metricTopScore">0</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
+          <div class="text-[11px] text-slate-400 font-bold">לומדות במאגר</div>
+          <div class="text-2xl font-black text-indigo-300" id="metricQuizzesCount">6</div>
+        </div>
+      </div>
+
+      <!-- Submissions Table -->
+      <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h3 class="text-base font-black text-white flex items-center gap-2">
+            <span>📊</span>
+            <span>תוצאות והגשות תלמידים בזמן אמת</span>
+          </h3>
+          <div class="flex items-center gap-2">
+            <button id="exportCsvBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 transition flex items-center gap-1.5">
+              <span>📥</span>
+              <span>ייצוא ל-Excel/CSV</span>
+            </button>
+            <button id="clearAllResultsBtn" class="px-3 py-1.5 rounded-xl bg-rose-950/50 hover:bg-rose-900 text-rose-300 text-xs font-bold border border-rose-800 transition flex items-center gap-1">
+              <span>🗑️</span>
+              <span>איפוס הגשות</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead class="bg-slate-950/60 text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="p-3">שם התלמיד/ה</th>
+                <th class="p-3">כיתה</th>
+                <th class="p-3">שאלון שנפתר</th>
+                <th class="p-3">ציון סופי</th>
+                <th class="p-3">תשובות נכונות</th>
+                <th class="p-3">תאריך ושעה</th>
+              </tr>
+            </thead>
+            <tbody id="submissionsTableBody" class="divide-y divide-slate-800 text-slate-200">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-7 space-y-5">
+        <div class="flex items-center gap-2 text-white font-black text-lg">
+          <span>🛠️</span>
+          <span>מחולל לומדה ושאלון חדש למורה</span>
+        </div>
+        <p class="text-xs text-slate-400">
+          הזינו מושג חדש מתוך אגרון המושגים של תקשורת וחברה. הלומדה החדשה תתווסף מיד לעמוד הבית ותהיה זמינה לתרגול התלמידים.
+        </p>
+
+        <form id="newQuizForm" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">שם המושג:</label>
+              <input type="text" id="newConceptName" placeholder="לדוגמה: הבניית מציאות / מסגור" required class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">זירה:</label>
+              <input type="text" id="newConceptArena" placeholder="לדוגמה: זירה 1 · מציאות תקשורתית" required class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">הגדרה פשוטה מתוך האגרון:</label>
+            <textarea id="newConceptDef" rows="3" placeholder="הסבר פשוט ובהיר על המושג..." required class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"></textarea>
+          </div>
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition shadow-sm">
+            שמור והוסף לומדה למאגר ✨
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="teacherAuthModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-8 border border-slate-200 shadow-2xl space-y-4 text-right">
+      <div class="text-center space-y-1">
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xl font-bold">
+          🔒
+        </div>
+        <h3 class="text-lg font-black text-slate-900">כניסה לאזור המורה</h3>
+        <p class="text-xs text-slate-500">יש להזין סיסמת כניסה כדי לצפות בציונים</p>
+      </div>
+
+      <div>
+        <input type="password" id="teacherPasswordInput" placeholder="סיסמה..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-center text-base tracking-widest font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        <p id="teacherAuthError" class="hidden text-xs font-bold text-rose-600 text-center mt-2">סיסמה שגויה, נסו שוב</p>
+      </div>
+
+      <div class="flex items-center gap-2 pt-1">
+        <button id="cancelTeacherAuthBtn" type="button" class="w-1/2 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">ביטול</button>
+        <button id="submitTeacherAuthBtn" type="button" class="w-1/2 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition shadow-sm">כניסה</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="cloudModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 border border-slate-200 shadow-2xl space-y-4 text-right">
+      <div class="flex items-center gap-2 text-indigo-700 font-black text-lg">
+        <span>🔥</span>
+        <span>חיבור ענן Firebase</span>
+      </div>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        הלומדה שומרת ציונים מקומית בדפדפן ובענן. לחיבור לפרויקט Firebase משלכם ב-GitHub Pages, הדביקו את אובייקט ה-JSON כאן:
+      </p>
+      <textarea id="cloudConfigInput" rows="5" dir="ltr" placeholder='{ "apiKey": "...", "projectId": "..." }' class="w-full text-xs font-mono p-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+      <div class="flex items-center gap-2 pt-1">
+        <button id="closeCloudModalBtn" class="w-1/2 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">סגור</button>
+        <button id="saveCloudConfigBtn" class="w-1/2 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition shadow-sm">שמור הגדרות</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
