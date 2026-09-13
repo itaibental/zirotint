@@ -59,3 +59,263 @@ h1, h2, h3, h4, .font-heading {
   color: #020617 !important;
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
+
+/* ==========================================================================
+   מסך מובייל בלבד (עד 768px רוחב) — גופנים, ריווחים ופריסה קומפקטיים יותר.
+   כל הכללים כאן מוגבלים ל-max-width: 768px ואינם משפיעים על תצוגת הדסקטופ.
+   נעשה שימוש ב-!important במקומות שבהם יש להתגבר על מחלקות Tailwind
+   שנטענות מה-CDN, כדי להבטיח עקביות ללא תלות בסדר טעינת הסקריפטים.
+   ========================================================================== */
+@media (max-width: 768px) {
+
+  /* --- טיפוגרפיה בסיסית --- */
+  html {
+    font-size: 15px;
+  }
+
+  h1, h2, h3, .font-heading {
+    letter-spacing: -0.01em;
+  }
+
+  /* --- מיכלים כלליים: פחות ריווח אופקי במסכים צרים --- */
+  main.max-w-6xl,
+  header .max-w-6xl {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  main {
+    padding-top: 1rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+
+  /* --- כותרת עליונה (הדר) --- */
+  header .flex.flex-wrap {
+    gap: 0.5rem !important;
+  }
+
+  #navHomeBtn, #navLessonBtn, #navQuizBtn, #navTeacherBtn, #cloudStatusBtn {
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.7rem !important;
+    gap: 0.35rem !important;
+  }
+
+  #brandLogoHome {
+    gap: 0.5rem !important;
+  }
+
+  /* --- חיפוש גלובלי --- */
+  #globalSearchInput {
+    padding: 0.55rem 2.25rem 0.55rem 0.85rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  #globalSearchResults {
+    max-height: 60vh;
+  }
+
+  #modulesTabsContainer {
+    gap: 0.35rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  /* --- עמוד הבית: כרזה ראשית --- */
+  #viewHome .relative.z-10.max-w-2xl {
+    max-width: 100% !important;
+  }
+
+  #viewHome h1 {
+    font-size: 1.5rem !important;
+    line-height: 1.25 !important;
+  }
+
+  #heroStartQuizBtn, #heroStartLessonBtn {
+    padding: 0.65rem 1rem !important;
+    font-size: 0.8rem !important;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* --- משבצות זירות --- */
+  #arenaTilesContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.6rem !important;
+  }
+
+  #arenaTilesContainer > button {
+    padding: 0.85rem !important;
+  }
+
+  #arenaTilesContainer .text-sm {
+    font-size: 0.78rem !important;
+  }
+
+  /* --- כרטיסי מושגים --- */
+  #homeConceptsGrid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  #homeConceptsGrid > div,
+  #arenaTilesContainer + div > div {
+    padding: 1rem !important;
+  }
+
+  #selectedArenaTitle {
+    font-size: 1rem !important;
+  }
+
+  /* --- מסך שיעור (שקפים) --- */
+  #lessonArenaBadge {
+    font-size: 0.65rem !important;
+    padding: 0.3rem 0.6rem !important;
+  }
+
+  #lessonTitle {
+    font-size: 1.1rem !important;
+    margin-top: 0.35rem !important;
+  }
+
+  #cardCounterText {
+    font-size: 0.7rem !important;
+  }
+
+  #quickJumpToQuizBtn {
+    padding: 0.45rem 0.7rem !important;
+    font-size: 0.7rem !important;
+  }
+
+  #lessonSlideCard {
+    padding: 1.1rem !important;
+    min-height: 320px !important;
+    border-radius: 1.25rem !important;
+  }
+
+  #slideContentArea {
+    gap: 0.75rem !important;
+  }
+
+  #slideContentArea h3,
+  #slideContentArea .text-base {
+    font-size: 0.95rem !important;
+  }
+
+  #slideContentArea p,
+  #slideContentArea div {
+    font-size: 0.8rem !important;
+    line-height: 1.6 !important;
+  }
+
+  #prevSlideBtn, #nextSlideBtn {
+    padding: 0.6rem 0.9rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* --- שער כניסה לשאלון --- */
+  #quizStudentGate {
+    padding: 1.25rem !important;
+    border-radius: 1.25rem !important;
+  }
+
+  #gateQuizTitle {
+    font-size: 1.25rem !important;
+  }
+
+  #studentNameInput, #studentClassSelect {
+    padding: 0.65rem 0.85rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  #startQuestionsBtn {
+    padding: 0.75rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* --- שאלון פעיל --- */
+  #quizProgressLabel, #activeStudentBadge, #liveScoreBadge {
+    font-size: 0.7rem !important;
+  }
+
+  #currentQuestionCard {
+    padding: 1.1rem !important;
+    border-radius: 1.25rem !important;
+    gap: 1rem !important;
+  }
+
+  #qCategoryBadge {
+    font-size: 0.65rem !important;
+    padding: 0.25rem 0.55rem !important;
+  }
+
+  #showHintBtn {
+    padding: 0.35rem 0.6rem !important;
+    font-size: 0.65rem !important;
+  }
+
+  #questionText {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+  }
+
+  #hintBox {
+    padding: 0.75rem !important;
+    font-size: 0.7rem !important;
+  }
+
+  #optionsContainer {
+    gap: 0.5rem !important;
+  }
+
+  #optionsContainer button {
+    padding: 0.65rem 0.85rem !important;
+    font-size: 0.78rem !important;
+  }
+
+  #feedbackBox {
+    padding: 0.85rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  #nextQuestionBtn {
+    padding: 0.75rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* --- סיכום שאלון --- */
+  #quizSummaryContainer {
+    padding: 1.25rem !important;
+    border-radius: 1.25rem !important;
+  }
+
+  #resultEmojiBadge {
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+    font-size: 1.75rem !important;
+  }
+
+  #finalGradeText {
+    font-size: 2.5rem !important;
+  }
+
+  #restartQuizBtn {
+    padding: 0.6rem 1rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* --- אזור המורה --- */
+  #viewTeacher .p-6, #viewTeacher .sm\:p-10 {
+    padding: 1.1rem !important;
+  }
+
+  #viewTeacher table {
+    font-size: 0.72rem !important;
+  }
+
+  /* --- מודלים קופצים --- */
+  .fixed .bg-white.rounded-3xl {
+    padding: 1.1rem !important;
+    border-radius: 1.25rem !important;
+    max-width: 92vw !important;
+  }
+}
