@@ -61,16 +61,17 @@ h1, h2, h3, h4, .font-heading {
 }
 
 /* ==========================================================================
-   מסך מובייל בלבד (עד 768px רוחב) — גופנים, ריווחים ופריסה קומפקטיים יותר.
-   כל הכללים כאן מוגבלים ל-max-width: 768px ואינם משפיעים על תצוגת הדסקטופ.
-   נעשה שימוש ב-!important במקומות שבהם יש להתגבר על מחלקות Tailwind
-   שנטענות מה-CDN, כדי להבטיח עקביות ללא תלות בסדר טעינת הסקריפטים.
+   מסך מובייל בלבד (עד 768px רוחב) — גופנים גדולים וקריאים, ריווחים ופריסה
+   מותאמים. כל הכללים כאן מוגבלים ל-max-width: 768px ואינם משפיעים על
+   תצוגת הדסקטופ. נעשה שימוש ב-!important במקומות שבהם יש להתגבר על
+   מחלקות Tailwind שנטענות מה-CDN, כדי להבטיח עקביות ללא תלות בסדר
+   טעינת הסקריפטים.
    ========================================================================== */
 @media (max-width: 768px) {
 
-  /* --- טיפוגרפיה בסיסית --- */
+  /* --- טיפוגרפיה בסיסית: גודל גופן מוגדל לקריאות נוחה בנייד --- */
   html {
-    font-size: 15px;
+    font-size: 18px;
   }
 
   h1, h2, h3, .font-heading {
@@ -95,8 +96,8 @@ h1, h2, h3, h4, .font-heading {
   }
 
   #navHomeBtn, #navLessonBtn, #navQuizBtn, #navTeacherBtn, #cloudStatusBtn {
-    padding: 0.4rem 0.6rem !important;
-    font-size: 0.7rem !important;
+    padding: 0.45rem 0.7rem !important;
+    font-size: 0.85rem !important;
     gap: 0.35rem !important;
   }
 
@@ -106,18 +107,20 @@ h1, h2, h3, h4, .font-heading {
 
   /* --- חיפוש גלובלי --- */
   #globalSearchInput {
-    padding: 0.55rem 2.25rem 0.55rem 0.85rem !important;
-    font-size: 0.75rem !important;
+    padding: 0.6rem 2.25rem 0.6rem 0.85rem !important;
+    font-size: 0.9rem !important;
   }
 
   #globalSearchResults {
     max-height: 60vh;
+    font-size: 0.9rem;
   }
 
   #modulesTabsContainer {
     gap: 0.35rem !important;
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important;
+    font-size: 0.85rem !important;
   }
 
   /* --- עמוד הבית: כרזה ראשית --- */
@@ -126,13 +129,17 @@ h1, h2, h3, h4, .font-heading {
   }
 
   #viewHome h1 {
-    font-size: 1.5rem !important;
+    font-size: 1.75rem !important;
     line-height: 1.25 !important;
   }
 
+  #viewHome p {
+    font-size: 0.95rem !important;
+  }
+
   #heroStartQuizBtn, #heroStartLessonBtn {
-    padding: 0.65rem 1rem !important;
-    font-size: 0.8rem !important;
+    padding: 0.7rem 1rem !important;
+    font-size: 0.95rem !important;
     width: 100%;
     justify-content: center;
   }
@@ -148,6 +155,10 @@ h1, h2, h3, h4, .font-heading {
   }
 
   #arenaTilesContainer .text-sm {
+    font-size: 0.92rem !important;
+  }
+
+  #arenaTilesContainer .text-\[11px\] {
     font-size: 0.78rem !important;
   }
 
@@ -159,31 +170,39 @@ h1, h2, h3, h4, .font-heading {
 
   #homeConceptsGrid > div,
   #arenaTilesContainer + div > div {
-    padding: 1rem !important;
+    padding: 1.1rem !important;
+  }
+
+  #homeConceptsGrid h3 {
+    font-size: 1.05rem !important;
+  }
+
+  #homeConceptsGrid p {
+    font-size: 0.85rem !important;
   }
 
   #selectedArenaTitle {
-    font-size: 1rem !important;
+    font-size: 1.15rem !important;
   }
 
   /* --- מסך שיעור (שקפים) --- */
   #lessonArenaBadge {
-    font-size: 0.65rem !important;
-    padding: 0.3rem 0.6rem !important;
+    font-size: 0.78rem !important;
+    padding: 0.3rem 0.65rem !important;
   }
 
   #lessonTitle {
-    font-size: 1.1rem !important;
+    font-size: 1.35rem !important;
     margin-top: 0.35rem !important;
   }
 
   #cardCounterText {
-    font-size: 0.7rem !important;
+    font-size: 0.85rem !important;
   }
 
   #quickJumpToQuizBtn {
-    padding: 0.45rem 0.7rem !important;
-    font-size: 0.7rem !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.85rem !important;
   }
 
   #lessonSlideCard {
@@ -198,18 +217,18 @@ h1, h2, h3, h4, .font-heading {
 
   #slideContentArea h3,
   #slideContentArea .text-base {
-    font-size: 0.95rem !important;
+    font-size: 1.15rem !important;
   }
 
   #slideContentArea p,
   #slideContentArea div {
-    font-size: 0.8rem !important;
-    line-height: 1.6 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.65 !important;
   }
 
   #prevSlideBtn, #nextSlideBtn {
     padding: 0.6rem 0.9rem !important;
-    font-size: 0.75rem !important;
+    font-size: 0.9rem !important;
   }
 
   /* --- שער כניסה לשאלון --- */
@@ -219,22 +238,26 @@ h1, h2, h3, h4, .font-heading {
   }
 
   #gateQuizTitle {
-    font-size: 1.25rem !important;
+    font-size: 1.45rem !important;
+  }
+
+  #quizStudentGate label {
+    font-size: 0.9rem !important;
   }
 
   #studentNameInput, #studentClassSelect {
-    padding: 0.65rem 0.85rem !important;
-    font-size: 0.8rem !important;
+    padding: 0.7rem 0.85rem !important;
+    font-size: 0.95rem !important;
   }
 
   #startQuestionsBtn {
-    padding: 0.75rem !important;
-    font-size: 0.8rem !important;
+    padding: 0.8rem !important;
+    font-size: 0.95rem !important;
   }
 
   /* --- שאלון פעיל --- */
   #quizProgressLabel, #activeStudentBadge, #liveScoreBadge {
-    font-size: 0.7rem !important;
+    font-size: 0.85rem !important;
   }
 
   #currentQuestionCard {
@@ -244,23 +267,23 @@ h1, h2, h3, h4, .font-heading {
   }
 
   #qCategoryBadge {
-    font-size: 0.65rem !important;
-    padding: 0.25rem 0.55rem !important;
+    font-size: 0.78rem !important;
+    padding: 0.3rem 0.6rem !important;
   }
 
   #showHintBtn {
-    padding: 0.35rem 0.6rem !important;
-    font-size: 0.65rem !important;
+    padding: 0.4rem 0.65rem !important;
+    font-size: 0.78rem !important;
   }
 
   #questionText {
-    font-size: 0.9rem !important;
-    line-height: 1.5 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.55 !important;
   }
 
   #hintBox {
-    padding: 0.75rem !important;
-    font-size: 0.7rem !important;
+    padding: 0.8rem !important;
+    font-size: 0.85rem !important;
   }
 
   #optionsContainer {
@@ -268,18 +291,22 @@ h1, h2, h3, h4, .font-heading {
   }
 
   #optionsContainer button {
-    padding: 0.65rem 0.85rem !important;
-    font-size: 0.78rem !important;
+    padding: 0.7rem 0.9rem !important;
+    font-size: 0.95rem !important;
   }
 
   #feedbackBox {
     padding: 0.85rem !important;
-    font-size: 0.75rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  #feedbackTitle {
+    font-size: 0.95rem !important;
   }
 
   #nextQuestionBtn {
-    padding: 0.75rem !important;
-    font-size: 0.8rem !important;
+    padding: 0.8rem !important;
+    font-size: 0.95rem !important;
   }
 
   /* --- סיכום שאלון --- */
@@ -289,18 +316,22 @@ h1, h2, h3, h4, .font-heading {
   }
 
   #resultEmojiBadge {
-    width: 3.5rem !important;
-    height: 3.5rem !important;
-    font-size: 1.75rem !important;
+    width: 3.75rem !important;
+    height: 3.75rem !important;
+    font-size: 2rem !important;
   }
 
   #finalGradeText {
-    font-size: 2.5rem !important;
+    font-size: 2.75rem !important;
+  }
+
+  #correctCountSummary, #resultSubtitle {
+    font-size: 0.85rem !important;
   }
 
   #restartQuizBtn {
-    padding: 0.6rem 1rem !important;
-    font-size: 0.75rem !important;
+    padding: 0.65rem 1.1rem !important;
+    font-size: 0.9rem !important;
   }
 
   /* --- אזור המורה --- */
@@ -309,7 +340,7 @@ h1, h2, h3, h4, .font-heading {
   }
 
   #viewTeacher table {
-    font-size: 0.72rem !important;
+    font-size: 0.85rem !important;
   }
 
   /* --- מודלים קופצים --- */
@@ -317,5 +348,6 @@ h1, h2, h3, h4, .font-heading {
     padding: 1.1rem !important;
     border-radius: 1.25rem !important;
     max-width: 92vw !important;
+    font-size: 0.95rem !important;
   }
 }
