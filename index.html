@@ -70,6 +70,22 @@
       </div>
     </div>
 
+    <!-- Font-size scale control: lets the user grow/shrink text site-wide by clicking or dragging along the scale -->
+    <div class="max-w-6xl mx-auto px-4 pb-2.5 flex items-center justify-center sm:justify-end gap-2.5" id="fontScaleControl" title="שינוי גודל הטקסט באתר">
+      <span class="text-[11px] sm:text-xs font-bold text-slate-400 shrink-0" aria-hidden="true">גודל טקסט</span>
+      <button id="fontScaleDownBtn" type="button" class="text-xs sm:text-sm font-black text-slate-400 hover:text-amber-400 transition shrink-0 w-5 text-center" aria-label="הקטן גודל טקסט">א</button>
+      <input type="range" id="fontScaleSlider" min="0" max="4" step="1" value="1" list="fontScaleTicks" class="w-28 sm:w-40 accent-amber-500 cursor-pointer" aria-label="סקאלה לשינוי גודל הטקסט באתר">
+      <datalist id="fontScaleTicks">
+        <option value="0"></option>
+        <option value="1"></option>
+        <option value="2"></option>
+        <option value="3"></option>
+        <option value="4"></option>
+      </datalist>
+      <button id="fontScaleUpBtn" type="button" class="text-base sm:text-lg font-black text-slate-300 hover:text-amber-400 transition shrink-0 w-6 text-center" aria-label="הגדל גודל טקסט">א</button>
+      <span id="fontScaleValueLabel" class="text-[11px] sm:text-xs font-bold text-amber-400 w-10 text-center shrink-0" aria-live="polite">100%</span>
+    </div>
+
     <div class="max-w-6xl mx-auto px-4 py-2 border-t border-slate-800/80 flex items-center gap-1.5 overflow-x-auto text-xs font-bold scrollbar-none" id="modulesTabsContainer">
       <!-- Generated dynamically by JS -->
     </div>

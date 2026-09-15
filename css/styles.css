@@ -1,8 +1,58 @@
+:root {
+  /* --font-scale נשלט על ידי סקאלת הגדלת/הקטנת הטקסט בהדר (js/app.js).
+     ברירת המחדל 1 = 100%. כל טקסט מבוסס rem (כלומר כמעט כל האתר, כולל
+     מחלקות Tailwind) גדל/קטן באופן יחסי כשהמשתנה הזה משתנה. */
+  --font-scale: 1;
+}
+
+html {
+  /* בסיס נוח לקריאה בתצוגת מחשב/דסקטופ - גדול במעט מברירת המחדל של הדפדפן (16px) */
+  font-size: calc(17px * var(--font-scale));
+}
+
 body {
   font-family: 'Assistant', sans-serif;
 }
 h1, h2, h3, h4, .font-heading {
   font-family: 'Heebo', sans-serif;
+}
+
+/* ==========================================================================
+   התאמות לתצוגת דסקטופ/מחשב (מסכים רחבים מ-1024px) — מיכל רחב יותר,
+   ריווח נדיב יותר וטיפוגרפיה מעט גדולה יותר לנוחות קריאה על מסך גדול.
+   ========================================================================== */
+@media (min-width: 1024px) {
+  header .max-w-6xl,
+  main.max-w-6xl {
+    max-width: 80rem !important;
+  }
+
+  #viewHome h1 {
+    font-size: 3rem !important;
+  }
+
+  #lessonSlideCard {
+    padding: 3rem !important;
+  }
+
+  #slideContentArea p,
+  #slideContentArea div {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  #questionText {
+    font-size: 1.35rem !important;
+  }
+
+  #optionsContainer button {
+    font-size: 1rem !important;
+    padding: 1rem 1.25rem !important;
+  }
+
+  #homeConceptsGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @keyframes redFlashOverlay {
@@ -71,7 +121,7 @@ h1, h2, h3, h4, .font-heading {
 
   /* --- טיפוגרפיה בסיסית: גודל גופן מוגדל לקריאות נוחה בנייד --- */
   html {
-    font-size: 18px;
+    font-size: calc(18px * var(--font-scale)) !important;
   }
 
   h1, h2, h3, .font-heading {

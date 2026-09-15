@@ -20,6 +20,67 @@ let isTeacherAuthenticated = false;
 let studentSubmissions = [...initialSubmissions];
 let selectedArena = null;
 
+/* ---------- Font-size scale control ---------- */
+// 5 steps: 85%, 100%, 115%, 130%, 145% - index 1 (100%) is the default.
+const FONT_SCALE_STEPS = [0.85, 1, 1.15, 1.3, 1.45];
+const FONT_SCALE_STORAGE_KEY = 'hakolBakaf_fontScaleIndex';
+
+function getSavedFontScaleIndex() {
+  try {
+    const saved = localStorage.getItem(FONT_SCALE_STORAGE_KEY);
+    const idx = saved === null ? 1 : parseInt(saved, 10);
+    if (Number.isNaN(idx) || idx < 0 || idx >= FONT_SCALE_STEPS.length) return 1;
+    return idx;
+  } catch (e) {
+    return 1; // localStorage may be unavailable (private browsing etc.) - fall back to default
+  }
+}
+
+function applyFontScale(index) {
+  const clamped = Math.min(Math.max(index, 0), FONT_SCALE_STEPS.length - 1);
+  const scale = FONT_SCALE_STEPS[clamped];
+
+  document.documentElement.style.setProperty('--font-scale', scale);
+
+  const slider = document.getElementById('fontScaleSlider');
+  const label = document.getElementById('fontScaleValueLabel');
+  if (slider) slider.value = clamped;
+  if (label) label.innerText = Math.round(scale * 100) + '%';
+
+  try {
+    localStorage.setItem(FONT_SCALE_STORAGE_KEY, String(clamped));
+  } catch (e) {
+    // ignore storage errors - scale still applies for the current session
+  }
+}
+
+function initFontScaleControl() {
+  const savedIndex = getSavedFontScaleIndex();
+  applyFontScale(savedIndex);
+
+  const slider = document.getElementById('fontScaleSlider');
+  const downBtn = document.getElementById('fontScaleDownBtn');
+  const upBtn = document.getElementById('fontScaleUpBtn');
+
+  if (slider) {
+    slider.addEventListener('input', () => {
+      applyFontScale(parseInt(slider.value, 10));
+    });
+  }
+  if (downBtn) {
+    downBtn.addEventListener('click', () => {
+      const current = slider ? parseInt(slider.value, 10) : getSavedFontScaleIndex();
+      applyFontScale(current - 1);
+    });
+  }
+  if (upBtn) {
+    upBtn.addEventListener('click', () => {
+      const current = slider ? parseInt(slider.value, 10) : getSavedFontScaleIndex();
+      applyFontScale(current + 1);
+    });
+  }
+}
+
 /* ---------- Arena helpers ---------- */
 const ARENA_ORDER = ['זירת העל', 'זירה 1', 'זירה 2', 'זירה 3', 'זירה 4', 'זירה 5', 'זירה 6', 'זירה 7', 'זירה 8', 'זירה 9'];
 const ARENA_ICONS = {
@@ -749,6 +810,8 @@ function buildCustomModule(name, arena, def) {
 
 /* ---------- Bootstrap ---------- */
 document.addEventListener('DOMContentLoaded', () => {
+  initFontScaleControl();
+
   document.getElementById('slideContentArea').addEventListener('pointerdown', onSlideContentTouched);
 
   document.getElementById('navHomeBtn').addEventListener('click', () => {

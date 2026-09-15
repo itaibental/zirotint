@@ -47,6 +47,18 @@ import spiral_of_silence from './concepts/spiral_of_silence.js';
 import memes from './concepts/memes.js';
 import polysemy from './concepts/polysemy.js';
 import satire from './concepts/satire.js';
+import advertising_persuasion from './concepts/advertising_persuasion.js';
+import branding from './concepts/branding.js';
+import influencer_marketing from './concepts/influencer_marketing.js';
+import cinematic_language from './concepts/cinematic_language.js';
+import film_genre from './concepts/film_genre.js';
+import reality_tv from './concepts/reality_tv.js';
+import sports_commercialization from './concepts/sports_commercialization.js';
+import sports_media from './concepts/sports_media.js';
+import womens_sports_media from './concepts/womens_sports_media.js';
+import algorithm_filter_bubble from './concepts/algorithm_filter_bubble.js';
+import fomo_comparison_culture from './concepts/fomo_comparison_culture.js';
+import influencer_culture from './concepts/influencer_culture.js';
 
 export const learningModules = [
   cancel_culture,
@@ -93,4 +105,16 @@ export const learningModules = [
   memes,
   polysemy,
   satire,
+  advertising_persuasion,
+  branding,
+  influencer_marketing,
+  cinematic_language,
+  film_genre,
+  reality_tv,
+  sports_commercialization,
+  sports_media,
+  womens_sports_media,
+  algorithm_filter_bubble,
+  fomo_comparison_culture,
+  influencer_culture,
 ];
