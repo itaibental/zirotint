@@ -32,7 +32,11 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-1.5 sm:gap-2">
+      <button id="mobileMenuToggleBtn" type="button" class="hidden w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 items-center justify-center text-slate-200 text-lg shrink-0" aria-label="פתח תפריט ניווט" aria-expanded="false" aria-controls="navButtonsRow">
+        <span id="mobileMenuToggleIcon">☰</span>
+      </button>
+
+      <div class="flex items-center gap-1.5 sm:gap-2" id="navButtonsRow">
         <button id="cloudStatusBtn" class="px-2.5 py-1.5 rounded-xl bg-slate-800/80 text-slate-300 border border-slate-700 text-xs font-bold flex items-center gap-1.5 hover:bg-slate-800 transition" title="סטטוס ענן">
           <span>☁️</span>
           <span class="hidden sm:inline">סנכרון ענן</span>

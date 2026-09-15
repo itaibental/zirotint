@@ -134,6 +134,34 @@ h4,
   font-size: calc(0.8rem * var(--font-scale)) !important;
 }
 
+/* מצב "תפריט המבורגר פתוח" (html.mobile-menu-open, מוגדר ב-js/app.js).
+   הכלל הזה תמיד פעיל (לא בתוך media query) כדי שלא ישוכפל בטעות בעת
+   יצירת בלוקי "כפיית תצוגה" - הוא גובר על הכלל #navButtonsRow שמסתיר
+   את שורת הניווט במובייל, הודות לספציפיות הגבוהה יותר שלו (מחלקה נוספת
+   על html), בלי קשר לכך שהכלל השני נמצא בתוך media query או שכפול שלו. */
+
+html.mobile-menu-open #navButtonsRow {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  align-items: stretch !important;
+  gap: 0.5rem !important;
+  margin-top: 0.75rem !important;
+  padding-top: 0.75rem !important;
+  border-top: 1px solid rgba(51, 65, 85, 0.8) !important;
+}
+
+html.mobile-menu-open #navButtonsRow button {
+  width: 100% !important;
+  justify-content: flex-start !important;
+  padding: 0.75rem 0.9rem !important;
+  font-size: 0.95rem !important;
+}
+
+html.mobile-menu-open #navButtonsRow button span:last-child {
+  display: inline !important;
+}
+
 /* ==========================================================================
    התאמות לתצוגת דסקטופ/מחשב (מסכים רחבים מ-1024px) — מיכל רחב יותר,
    ריווח נדיב יותר וטיפוגרפיה מעט גדולה יותר לנוחות קריאה על מסך גדול.
@@ -174,7 +202,7 @@ h4,
   }
 
   #homeConceptsGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
 
@@ -341,6 +369,18 @@ h4,
 
   #brandLogoHome {
     gap: 0.5rem !important;
+  }
+
+  /* --- תפריט המבורגר: כפתור הפתיחה מוצג כאן, והשורה עצמה מוסתרת כברירת
+     מחדל. מצב הפתיחה (html.mobile-menu-open) מוגדר בבלוק נפרד ותמיד-פעיל
+     בהמשך הקובץ, כדי שלא יוכפל בטעות בעת יצירת גרסאות "כפיית תצוגה". --- */
+
+  #mobileMenuToggleBtn {
+    display: flex !important;
+  }
+
+  #navButtonsRow {
+    display: none !important;
   }
 
   /* --- חיפוש גלובלי --- */
@@ -611,10 +651,10 @@ h4,
    ==========================================================================
    מצבי תצוגה ידניים (view-mode-mobile / view-mode-web) - הכללים למעלה חלים
    אוטומטית לפי רוחב המסך בפועל. הבלוקים הבאים הם עותקים זהים של אותם
-   כללים (כולל הסקאלה המבוססת על calc(...*var(--font-scale))), אך מופעלים
-   גם באופן ידני על ידי כפתור המעבר בהדר (js/app.js), ללא קשר לרוחב המסך
-   האמיתי - כדי לאפשר "כפיית" תצוגת מובייל בדסקטופ או להפך. הם קובצו
-   אוטומטית מתוך אותם כללי המקור, כדי שלא ייווצר סתירה בין שני מקורות האמת.
+   כללים (כולל הסקאלה וכללי תפריט ההמבורגר), אך מופעלים גם באופן ידני על
+   ידי כפתור המעבר בהדר (js/app.js), ללא קשר לרוחב המסך האמיתי - כדי
+   לאפשר "כפיית" תצוגת מובייל בדסקטופ או להפך. הם קובצו אוטומטית מתוך
+   אותם כללי המקור, כדי שלא ייווצר סתירה בין שני מקורות האמת.
    ==========================================================================
   */
 
@@ -673,6 +713,14 @@ html.view-mode-mobile #cloudStatusBtn {
 
 html.view-mode-mobile #brandLogoHome {
   gap: 0.5rem !important;
+}
+
+html.view-mode-mobile #mobileMenuToggleBtn {
+  display: flex !important;
+}
+
+html.view-mode-mobile #navButtonsRow {
+  display: none !important;
 }
 
 html.view-mode-mobile #globalSearchInput {

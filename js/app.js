@@ -151,8 +151,73 @@ function initViewModeToggle() {
       playSound('click');
       currentMode = currentMode === 'mobile' ? 'web' : 'mobile';
       applyViewMode(currentMode);
+      closeMobileMenu(); // נמנעים ממצב תקוע של תפריט פתוח אחרי מעבר תצוגה
     });
   }
+}
+
+/* ---------- תפריט המבורגר (מובייל בלבד) ---------- */
+function isMobileMenuOpen() {
+  return document.documentElement.classList.contains('mobile-menu-open');
+}
+
+function openMobileMenu() {
+  document.documentElement.classList.add('mobile-menu-open');
+  const btn = document.getElementById('mobileMenuToggleBtn');
+  const icon = document.getElementById('mobileMenuToggleIcon');
+  if (btn) btn.setAttribute('aria-expanded', 'true');
+  if (icon) icon.innerText = '✕';
+}
+
+function closeMobileMenu() {
+  document.documentElement.classList.remove('mobile-menu-open');
+  const btn = document.getElementById('mobileMenuToggleBtn');
+  const icon = document.getElementById('mobileMenuToggleIcon');
+  if (btn) btn.setAttribute('aria-expanded', 'false');
+  if (icon) icon.innerText = '☰';
+}
+
+function toggleMobileMenu() {
+  if (isMobileMenuOpen()) {
+    closeMobileMenu();
+  } else {
+    openMobileMenu();
+  }
+}
+
+function initMobileMenu() {
+  const toggleBtn = document.getElementById('mobileMenuToggleBtn');
+  const navRow = document.getElementById('navButtonsRow');
+  if (!toggleBtn || !navRow) return;
+
+  toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    playSound('click');
+    toggleMobileMenu();
+  });
+
+  // לחיצה על כל כפתור ניווט בתוך התפריט הפתוח (בית/שיעור/שאלון/מורה/ענן)
+  // סוגרת את התפריט אוטומטית, כי הניווט עצמו כבר מתבצע על ידי המאזינים
+  // הקיימים על אותם כפתורים - כאן רק סוגרים את התפריט אחריהם.
+  navRow.addEventListener('click', (e) => {
+    if (e.target.closest('button')) {
+      closeMobileMenu();
+    }
+  });
+
+  // לחיצה מחוץ לתפריט הפתוח (ולא על כפתור הפתיחה עצמו) סוגרת אותו
+  document.addEventListener('click', (e) => {
+    if (!isMobileMenuOpen()) return;
+    if (navRow.contains(e.target) || toggleBtn.contains(e.target)) return;
+    closeMobileMenu();
+  });
+
+  // מקש Escape סוגר את התפריט, בדומה להתנהגות החיפוש הגלובלי
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isMobileMenuOpen()) {
+      closeMobileMenu();
+    }
+  });
 }
 
 /* ---------- Arena helpers ---------- */
@@ -898,6 +963,7 @@ function buildCustomModule(name, arena, def) {
 document.addEventListener('DOMContentLoaded', () => {
   initFontScaleControl();
   initViewModeToggle();
+  initMobileMenu();
 
   document.getElementById('slideContentArea').addEventListener('pointerdown', onSlideContentTouched);
 
