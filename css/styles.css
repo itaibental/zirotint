@@ -1,8 +1,8 @@
 :root {
   /* --font-scale נשלט על ידי סקאלת הגדלת/הקטנת הטקסט בהדר (js/app.js).
      ברירת המחדל 1 = 100%. בכוונה הוא לא משפיע על גודל הגופן הכללי של
-     האתר (html), אלא רק על תוכן השיעור בכרטיסיות ועל שאלון התרגול -
-     ראו את הכלל "#viewLesson, #viewQuiz { zoom: ... }" בהמשך הקובץ. */
+     האתר (html), אלא רק על אלמנטי הטקסט הספציפיים בתוך השיעור בכרטיסיות
+     ובשאלון התרגול (מסומנים בהמשך הקובץ עם calc(... * var(--font-scale))). */
   --font-scale: 1;
 }
 
@@ -24,15 +24,114 @@ h4,
   font-family: 'Heebo', sans-serif;
 }
 
-/* הסקאלה להגדלה/הקטנת טקסט (הנשלטת מהסליידר בהדר) חלה אך ורק על תוכן
-   השיעור בכרטיסיות ועל שאלון התרגול - לא על התפריט הראשי, עמוד הבית
-   או אזור המורה. שימוש ב-zoom (ולא בשינוי font-size גלובלי) מבטיח
-   שגם הריווחים והפריסה הפנימיים של השקפים/השאלון משתנים יחד עם הטקסט,
-   בעוד כל שאר האתר (כולל ההדר עם הסקאלה עצמה) נשאר בגודלו הרגיל. */
+/* הסקאלה להגדלה/הקטנת טקסט (הנשלטת מהסליידר בהדר) חלה אך ורק על אלמנטי
+   הטקסט הספציפיים בתוך השיעור בכרטיסיות ובתוך שאלון התרגול - לא על
+   התפריט הראשי, עמוד הבית או אזור המורה. הסקאלה מיושמת ישירות על גודל
+   הגופן (font-size) של כל אלמנט טקסט רלוונטי באמצעות calc(), ולא דרך
+   מאפיין zoom - כי zoom עלול לגרום לטקסט "לגלוש" אנכית מחוץ לגבולות
+   כרטיסים בפריסות flex (בעיה שזוהתה ותוקנה). שינוי font-size אמיתי
+   תמיד גורם לדפדפן לחשב מחדש את גובה המיכל בהתאם לתוכן, כך שאין גלישה.
+   הכללים כאן הם ברירת המחדל לכל רוחב מסך; בלוקי המובייל והדסקטופ
+   שבהמשך הקובץ מוסיפים עליהם התאמות ספציפיות לפי רוחב המסך. */
 
-#viewLesson,
-#viewQuiz {
-  zoom: var(--font-scale);
+#lessonArenaBadge {
+  font-size: calc(0.75rem * var(--font-scale)) !important;
+}
+
+#lessonTitle {
+  font-size: calc(1.25rem * var(--font-scale)) !important;
+}
+
+#cardCounterText {
+  font-size: calc(0.75rem * var(--font-scale)) !important;
+}
+
+#quickJumpToQuizBtn {
+  font-size: calc(0.75rem * var(--font-scale)) !important;
+}
+
+#slideContentArea h3,
+#slideContentArea .text-base {
+  font-size: calc(1.25rem * var(--font-scale)) !important;
+}
+
+#slideContentArea p,
+#slideContentArea div {
+  font-size: calc(0.875rem * var(--font-scale)) !important;
+}
+
+#prevSlideBtn,
+#nextSlideBtn {
+  font-size: calc(0.875rem * var(--font-scale)) !important;
+}
+
+#gateQuizTitle {
+  font-size: calc(1.5rem * var(--font-scale)) !important;
+}
+
+#quizStudentGate label {
+  font-size: calc(0.875rem * var(--font-scale)) !important;
+}
+
+#studentNameInput,
+#studentClassSelect {
+  font-size: calc(0.875rem * var(--font-scale)) !important;
+}
+
+#startQuestionsBtn {
+  font-size: calc(0.875rem * var(--font-scale)) !important;
+}
+
+#quizProgressLabel,
+#activeStudentBadge,
+#liveScoreBadge {
+  font-size: calc(0.75rem * var(--font-scale)) !important;
+}
+
+#qCategoryBadge {
+  font-size: calc(0.75rem * var(--font-scale)) !important;
+}
+
+#showHintBtn {
+  font-size: calc(0.75rem * var(--font-scale)) !important;
+}
+
+#questionText {
+  font-size: calc(1.125rem * var(--font-scale)) !important;
+}
+
+#hintBox {
+  font-size: calc(0.8rem * var(--font-scale)) !important;
+}
+
+#optionsContainer button {
+  font-size: calc(0.875rem * var(--font-scale)) !important;
+}
+
+#feedbackBox,
+#feedbackTitle {
+  font-size: calc(0.875rem * var(--font-scale)) !important;
+}
+
+#nextQuestionBtn {
+  font-size: calc(0.875rem * var(--font-scale)) !important;
+}
+
+#resultEmojiBadge {
+  font-size: calc(1.75rem * var(--font-scale)) !important;
+}
+
+#finalGradeText {
+  font-size: calc(2.25rem * var(--font-scale)) !important;
+}
+
+#correctCountSummary,
+#resultSubtitle {
+  font-size: calc(0.8rem * var(--font-scale)) !important;
+}
+
+#restartQuizBtn {
+  font-size: calc(0.8rem * var(--font-scale)) !important;
 }
 
 /* ==========================================================================
@@ -56,16 +155,21 @@ h4,
 
   #slideContentArea p,
   #slideContentArea div {
-    font-size: 1rem;
-    line-height: 1.75;
+    font-size: calc(1rem * var(--font-scale)) !important;
+    line-height: 1.75 !important;
+  }
+
+  #slideContentArea h3,
+  #slideContentArea .text-base {
+    font-size: calc(1.375rem * var(--font-scale)) !important;
   }
 
   #questionText {
-    font-size: 1.35rem !important;
+    font-size: calc(1.35rem * var(--font-scale)) !important;
   }
 
   #optionsContainer button {
-    font-size: 1rem !important;
+    font-size: calc(1rem * var(--font-scale)) !important;
     padding: 1rem 1.25rem !important;
   }
 
@@ -327,22 +431,22 @@ h4,
   /* --- מסך שיעור (שקפים) --- */
 
   #lessonArenaBadge {
-    font-size: 0.78rem !important;
+    font-size: calc(0.78rem * var(--font-scale)) !important;
     padding: 0.3rem 0.65rem !important;
   }
 
   #lessonTitle {
-    font-size: 1.35rem !important;
+    font-size: calc(1.35rem * var(--font-scale)) !important;
     margin-top: 0.35rem !important;
   }
 
   #cardCounterText {
-    font-size: 0.85rem !important;
+    font-size: calc(0.85rem * var(--font-scale)) !important;
   }
 
   #quickJumpToQuizBtn {
     padding: 0.5rem 0.75rem !important;
-    font-size: 0.85rem !important;
+    font-size: calc(0.85rem * var(--font-scale)) !important;
   }
 
   #lessonSlideCard {
@@ -357,19 +461,19 @@ h4,
 
   #slideContentArea h3,
   #slideContentArea .text-base {
-    font-size: 1.15rem !important;
+    font-size: calc(1.15rem * var(--font-scale)) !important;
   }
 
   #slideContentArea p,
   #slideContentArea div {
-    font-size: 0.95rem !important;
+    font-size: calc(0.95rem * var(--font-scale)) !important;
     line-height: 1.65 !important;
   }
 
   #prevSlideBtn,
   #nextSlideBtn {
     padding: 0.6rem 0.9rem !important;
-    font-size: 0.9rem !important;
+    font-size: calc(0.9rem * var(--font-scale)) !important;
   }
 
   /* --- שער כניסה לשאלון --- */
@@ -380,22 +484,22 @@ h4,
   }
 
   #gateQuizTitle {
-    font-size: 1.45rem !important;
+    font-size: calc(1.45rem * var(--font-scale)) !important;
   }
 
   #quizStudentGate label {
-    font-size: 0.9rem !important;
+    font-size: calc(0.9rem * var(--font-scale)) !important;
   }
 
   #studentNameInput,
   #studentClassSelect {
     padding: 0.7rem 0.85rem !important;
-    font-size: 0.95rem !important;
+    font-size: calc(0.95rem * var(--font-scale)) !important;
   }
 
   #startQuestionsBtn {
     padding: 0.8rem !important;
-    font-size: 0.95rem !important;
+    font-size: calc(0.95rem * var(--font-scale)) !important;
   }
 
   /* --- שאלון פעיל --- */
@@ -403,7 +507,7 @@ h4,
   #quizProgressLabel,
   #activeStudentBadge,
   #liveScoreBadge {
-    font-size: 0.85rem !important;
+    font-size: calc(0.85rem * var(--font-scale)) !important;
   }
 
   #currentQuestionCard {
@@ -413,23 +517,23 @@ h4,
   }
 
   #qCategoryBadge {
-    font-size: 0.78rem !important;
+    font-size: calc(0.78rem * var(--font-scale)) !important;
     padding: 0.3rem 0.6rem !important;
   }
 
   #showHintBtn {
     padding: 0.4rem 0.65rem !important;
-    font-size: 0.78rem !important;
+    font-size: calc(0.78rem * var(--font-scale)) !important;
   }
 
   #questionText {
-    font-size: 1.1rem !important;
+    font-size: calc(1.1rem * var(--font-scale)) !important;
     line-height: 1.55 !important;
   }
 
   #hintBox {
     padding: 0.8rem !important;
-    font-size: 0.85rem !important;
+    font-size: calc(0.85rem * var(--font-scale)) !important;
   }
 
   #optionsContainer {
@@ -438,21 +542,21 @@ h4,
 
   #optionsContainer button {
     padding: 0.7rem 0.9rem !important;
-    font-size: 0.95rem !important;
+    font-size: calc(0.95rem * var(--font-scale)) !important;
   }
 
   #feedbackBox {
     padding: 0.85rem !important;
-    font-size: 0.9rem !important;
+    font-size: calc(0.9rem * var(--font-scale)) !important;
   }
 
   #feedbackTitle {
-    font-size: 0.95rem !important;
+    font-size: calc(0.95rem * var(--font-scale)) !important;
   }
 
   #nextQuestionBtn {
     padding: 0.8rem !important;
-    font-size: 0.95rem !important;
+    font-size: calc(0.95rem * var(--font-scale)) !important;
   }
 
   /* --- סיכום שאלון --- */
@@ -465,21 +569,21 @@ h4,
   #resultEmojiBadge {
     width: 3.75rem !important;
     height: 3.75rem !important;
-    font-size: 2rem !important;
+    font-size: calc(2rem * var(--font-scale)) !important;
   }
 
   #finalGradeText {
-    font-size: 2.75rem !important;
+    font-size: calc(2.75rem * var(--font-scale)) !important;
   }
 
   #correctCountSummary,
   #resultSubtitle {
-    font-size: 0.85rem !important;
+    font-size: calc(0.85rem * var(--font-scale)) !important;
   }
 
   #restartQuizBtn {
     padding: 0.65rem 1.1rem !important;
-    font-size: 0.9rem !important;
+    font-size: calc(0.9rem * var(--font-scale)) !important;
   }
 
   /* --- אזור המורה --- */
@@ -507,10 +611,10 @@ h4,
    ==========================================================================
    מצבי תצוגה ידניים (view-mode-mobile / view-mode-web) - הכללים למעלה חלים
    אוטומטית לפי רוחב המסך בפועל. הבלוקים הבאים הם עותקים זהים של אותם
-   כללים, אך מופעלים גם באופן ידני על ידי כפתור המעבר בהדר (js/app.js),
-   ללא קשר לרוחב המסך האמיתי - כדי לאפשר "כפיית" תצוגת מובייל בדסקטופ
-   או להפך. הם קובצו אוטומטית מתוך אותם כללי המקור, כדי שלא ייווצר סתירה
-   בין שני מקורות האמת.
+   כללים (כולל הסקאלה המבוססת על calc(...*var(--font-scale))), אך מופעלים
+   גם באופן ידני על ידי כפתור המעבר בהדר (js/app.js), ללא קשר לרוחב המסך
+   האמיתי - כדי לאפשר "כפיית" תצוגת מובייל בדסקטופ או להפך. הם קובצו
+   אוטומטית מתוך אותם כללי המקור, כדי שלא ייווצר סתירה בין שני מקורות האמת.
    ==========================================================================
   */
 
@@ -649,22 +753,22 @@ html.view-mode-mobile #selectedArenaTitle {
 }
 
 html.view-mode-mobile #lessonArenaBadge {
-  font-size: 0.78rem !important;
+  font-size: calc(0.78rem * var(--font-scale)) !important;
   padding: 0.3rem 0.65rem !important;
 }
 
 html.view-mode-mobile #lessonTitle {
-  font-size: 1.35rem !important;
+  font-size: calc(1.35rem * var(--font-scale)) !important;
   margin-top: 0.35rem !important;
 }
 
 html.view-mode-mobile #cardCounterText {
-  font-size: 0.85rem !important;
+  font-size: calc(0.85rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #quickJumpToQuizBtn {
   padding: 0.5rem 0.75rem !important;
-  font-size: 0.85rem !important;
+  font-size: calc(0.85rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #lessonSlideCard {
@@ -679,19 +783,19 @@ html.view-mode-mobile #slideContentArea {
 
 html.view-mode-mobile #slideContentArea h3,
 html.view-mode-mobile #slideContentArea .text-base {
-  font-size: 1.15rem !important;
+  font-size: calc(1.15rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #slideContentArea p,
 html.view-mode-mobile #slideContentArea div {
-  font-size: 0.95rem !important;
+  font-size: calc(0.95rem * var(--font-scale)) !important;
   line-height: 1.65 !important;
 }
 
 html.view-mode-mobile #prevSlideBtn,
 html.view-mode-mobile #nextSlideBtn {
   padding: 0.6rem 0.9rem !important;
-  font-size: 0.9rem !important;
+  font-size: calc(0.9rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #quizStudentGate {
@@ -700,28 +804,28 @@ html.view-mode-mobile #quizStudentGate {
 }
 
 html.view-mode-mobile #gateQuizTitle {
-  font-size: 1.45rem !important;
+  font-size: calc(1.45rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #quizStudentGate label {
-  font-size: 0.9rem !important;
+  font-size: calc(0.9rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #studentNameInput,
 html.view-mode-mobile #studentClassSelect {
   padding: 0.7rem 0.85rem !important;
-  font-size: 0.95rem !important;
+  font-size: calc(0.95rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #startQuestionsBtn {
   padding: 0.8rem !important;
-  font-size: 0.95rem !important;
+  font-size: calc(0.95rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #quizProgressLabel,
 html.view-mode-mobile #activeStudentBadge,
 html.view-mode-mobile #liveScoreBadge {
-  font-size: 0.85rem !important;
+  font-size: calc(0.85rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #currentQuestionCard {
@@ -731,23 +835,23 @@ html.view-mode-mobile #currentQuestionCard {
 }
 
 html.view-mode-mobile #qCategoryBadge {
-  font-size: 0.78rem !important;
+  font-size: calc(0.78rem * var(--font-scale)) !important;
   padding: 0.3rem 0.6rem !important;
 }
 
 html.view-mode-mobile #showHintBtn {
   padding: 0.4rem 0.65rem !important;
-  font-size: 0.78rem !important;
+  font-size: calc(0.78rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #questionText {
-  font-size: 1.1rem !important;
+  font-size: calc(1.1rem * var(--font-scale)) !important;
   line-height: 1.55 !important;
 }
 
 html.view-mode-mobile #hintBox {
   padding: 0.8rem !important;
-  font-size: 0.85rem !important;
+  font-size: calc(0.85rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #optionsContainer {
@@ -756,21 +860,21 @@ html.view-mode-mobile #optionsContainer {
 
 html.view-mode-mobile #optionsContainer button {
   padding: 0.7rem 0.9rem !important;
-  font-size: 0.95rem !important;
+  font-size: calc(0.95rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #feedbackBox {
   padding: 0.85rem !important;
-  font-size: 0.9rem !important;
+  font-size: calc(0.9rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #feedbackTitle {
-  font-size: 0.95rem !important;
+  font-size: calc(0.95rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #nextQuestionBtn {
   padding: 0.8rem !important;
-  font-size: 0.95rem !important;
+  font-size: calc(0.95rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #quizSummaryContainer {
@@ -781,21 +885,21 @@ html.view-mode-mobile #quizSummaryContainer {
 html.view-mode-mobile #resultEmojiBadge {
   width: 3.75rem !important;
   height: 3.75rem !important;
-  font-size: 2rem !important;
+  font-size: calc(2rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #finalGradeText {
-  font-size: 2.75rem !important;
+  font-size: calc(2.75rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #correctCountSummary,
 html.view-mode-mobile #resultSubtitle {
-  font-size: 0.85rem !important;
+  font-size: calc(0.85rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #restartQuizBtn {
   padding: 0.65rem 1.1rem !important;
-  font-size: 0.9rem !important;
+  font-size: calc(0.9rem * var(--font-scale)) !important;
 }
 
 html.view-mode-mobile #viewTeacher .p-6,
@@ -831,16 +935,21 @@ html.view-mode-web #lessonSlideCard {
 
 html.view-mode-web #slideContentArea p,
 html.view-mode-web #slideContentArea div {
-  font-size: 1rem !important;
+  font-size: calc(1rem * var(--font-scale)) !important;
   line-height: 1.75 !important;
 }
 
+html.view-mode-web #slideContentArea h3,
+html.view-mode-web #slideContentArea .text-base {
+  font-size: calc(1.375rem * var(--font-scale)) !important;
+}
+
 html.view-mode-web #questionText {
-  font-size: 1.35rem !important;
+  font-size: calc(1.35rem * var(--font-scale)) !important;
 }
 
 html.view-mode-web #optionsContainer button {
-  font-size: 1rem !important;
+  font-size: calc(1rem * var(--font-scale)) !important;
   padding: 1rem 1.25rem !important;
 }
 
