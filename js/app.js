@@ -81,6 +81,65 @@ function initFontScaleControl() {
   }
 }
 
+/* ---------- Manual mobile/web view-mode toggle ---------- */
+const VIEW_MODE_STORAGE_KEY = 'hakolBakaf_viewMode';
+
+function detectDefaultViewMode() {
+  try {
+    return window.matchMedia('(max-width: 768px)').matches ? 'mobile' : 'web';
+  } catch (e) {
+    return 'web';
+  }
+}
+
+function getSavedViewMode() {
+  try {
+    const saved = localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+    return (saved === 'mobile' || saved === 'web') ? saved : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function applyViewMode(mode) {
+  const html = document.documentElement;
+  html.classList.remove('view-mode-mobile', 'view-mode-web');
+  html.classList.add(mode === 'mobile' ? 'view-mode-mobile' : 'view-mode-web');
+
+  const icon = document.getElementById('viewModeToggleIcon');
+  const label = document.getElementById('viewModeToggleLabel');
+  // הכפתור תמיד מציג את האפשרות שהמעבר אליה יוביל (הפוכה למצב הנוכחי)
+  if (mode === 'mobile') {
+    if (icon) icon.innerText = '🖥️';
+    if (label) label.innerText = 'תצוגת מחשב';
+  } else {
+    if (icon) icon.innerText = '📱';
+    if (label) label.innerText = 'תצוגת נייד';
+  }
+
+  try {
+    localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode);
+  } catch (e) {
+    // ignore storage errors - mode still applies for the current session
+  }
+
+  return mode;
+}
+
+function initViewModeToggle() {
+  let currentMode = getSavedViewMode() || detectDefaultViewMode();
+  applyViewMode(currentMode);
+
+  const toggleBtn = document.getElementById('viewModeToggleBtn');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      playSound('click');
+      currentMode = currentMode === 'mobile' ? 'web' : 'mobile';
+      applyViewMode(currentMode);
+    });
+  }
+}
+
 /* ---------- Arena helpers ---------- */
 const ARENA_ORDER = ['זירת העל', 'זירה 1', 'זירה 2', 'זירה 3', 'זירה 4', 'זירה 5', 'זירה 6', 'זירה 7', 'זירה 8', 'זירה 9'];
 const ARENA_ICONS = {
@@ -811,6 +870,7 @@ function buildCustomModule(name, arena, def) {
 /* ---------- Bootstrap ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   initFontScaleControl();
+  initViewModeToggle();
 
   document.getElementById('slideContentArea').addEventListener('pointerdown', onSlideContentTouched);
 

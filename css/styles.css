@@ -1,26 +1,45 @@
 :root {
   /* --font-scale נשלט על ידי סקאלת הגדלת/הקטנת הטקסט בהדר (js/app.js).
-     ברירת המחדל 1 = 100%. כל טקסט מבוסס rem (כלומר כמעט כל האתר, כולל
-     מחלקות Tailwind) גדל/קטן באופן יחסי כשהמשתנה הזה משתנה. */
+     ברירת המחדל 1 = 100%. בכוונה הוא לא משפיע על גודל הגופן הכללי של
+     האתר (html), אלא רק על תוכן השיעור בכרטיסיות ועל שאלון התרגול -
+     ראו את הכלל "#viewLesson, #viewQuiz { zoom: ... }" בהמשך הקובץ. */
   --font-scale: 1;
 }
 
 html {
-  /* בסיס נוח לקריאה בתצוגת מחשב/דסקטופ - גדול במעט מברירת המחדל של הדפדפן (16px) */
-  font-size: calc(17px * var(--font-scale));
+  /* בסיס נוח לקריאה בתצוגת מחשב/דסקטופ - גדול במעט מברירת המחדל של הדפדפן (16px).
+     קבוע ואינו מושפע מהסקאלה, כפי שנדרש - הסקאלה חלה רק על שיעור ושאלון. */
+  font-size: 17px;
 }
 
 body {
   font-family: 'Assistant', sans-serif;
 }
-h1, h2, h3, h4, .font-heading {
+
+h1,
+h2,
+h3,
+h4,
+.font-heading {
   font-family: 'Heebo', sans-serif;
+}
+
+/* הסקאלה להגדלה/הקטנת טקסט (הנשלטת מהסליידר בהדר) חלה אך ורק על תוכן
+   השיעור בכרטיסיות ועל שאלון התרגול - לא על התפריט הראשי, עמוד הבית
+   או אזור המורה. שימוש ב-zoom (ולא בשינוי font-size גלובלי) מבטיח
+   שגם הריווחים והפריסה הפנימיים של השקפים/השאלון משתנים יחד עם הטקסט,
+   בעוד כל שאר האתר (כולל ההדר עם הסקאלה עצמה) נשאר בגודלו הרגיל. */
+
+#viewLesson,
+#viewQuiz {
+  zoom: var(--font-scale);
 }
 
 /* ==========================================================================
    התאמות לתצוגת דסקטופ/מחשב (מסכים רחבים מ-1024px) — מיכל רחב יותר,
    ריווח נדיב יותר וטיפוגרפיה מעט גדולה יותר לנוחות קריאה על מסך גדול.
    ========================================================================== */
+
 @media (min-width: 1024px) {
   header .max-w-6xl,
   main.max-w-6xl {
@@ -56,19 +75,53 @@ h1, h2, h3, h4, .font-heading {
 }
 
 @keyframes redFlashOverlay {
-  0% { opacity: 0; }
-  25% { opacity: 0.75; }
-  50% { opacity: 0.1; }
-  75% { opacity: 0.75; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 0.75;
+  }
+
+  50% {
+    opacity: 0.1;
+  }
+
+  75% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes redShakeCard {
-  0%, 100% { transform: translateX(0); border-color: rgb(226, 232, 240); }
-  20% { transform: translateX(-9px); border-color: rgb(239, 68, 68); background-color: #fff1f2; }
-  40% { transform: translateX(9px); border-color: rgb(239, 68, 68); }
-  60% { transform: translateX(-6px); border-color: rgb(239, 68, 68); }
-  80% { transform: translateX(6px); border-color: rgb(239, 68, 68); }
+  0%, 100% {
+    transform: translateX(0);
+    border-color: rgb(226, 232, 240);
+  }
+
+  20% {
+    transform: translateX(-9px);
+    border-color: rgb(239, 68, 68);
+    background-color: #fff1f2;
+  }
+
+  40% {
+    transform: translateX(9px);
+    border-color: rgb(239, 68, 68);
+  }
+
+  60% {
+    transform: translateX(-6px);
+    border-color: rgb(239, 68, 68);
+  }
+
+  80% {
+    transform: translateX(6px);
+    border-color: rgb(239, 68, 68);
+  }
 }
 
 .animate-red-flash {
@@ -90,9 +143,11 @@ h1, h2, h3, h4, .font-heading {
     opacity: 1;
     transform: translate(0, 0) scale(0.6) rotate(0deg);
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
     transform: translate(var(--tx), var(--ty)) scale(1.3) rotate(var(--tr));
@@ -117,18 +172,42 @@ h1, h2, h3, h4, .font-heading {
    מחלקות Tailwind שנטענות מה-CDN, כדי להבטיח עקביות ללא תלות בסדר
    טעינת הסקריפטים.
    ========================================================================== */
-@media (max-width: 768px) {
 
-  /* --- טיפוגרפיה בסיסית: גודל גופן מוגדל לקריאות נוחה בנייד --- */
-  html {
-    font-size: calc(18px * var(--font-scale)) !important;
+@media (max-width: 768px) {
+  /* --- מניעת גלילה אופקית: המסך נשאר ממורכז והטקסט לא "בורח" הצידה --- */
+
+  html,
+  body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
   }
 
-  h1, h2, h3, .font-heading {
+  main,
+  header,
+  #viewHome,
+  #viewLesson,
+  #viewQuiz,
+  #viewTeacher {
+    max-width: 100vw !important;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* --- טיפוגרפיה בסיסית: גודל גופן מוגדל לקריאות נוחה בנייד --- */
+
+  html {
+    font-size: 18px !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-heading {
     letter-spacing: -0.01em;
   }
 
   /* --- מיכלים כלליים: פחות ריווח אופקי במסכים צרים --- */
+
   main.max-w-6xl,
   header .max-w-6xl {
     padding-left: 0.75rem !important;
@@ -141,11 +220,16 @@ h1, h2, h3, h4, .font-heading {
   }
 
   /* --- כותרת עליונה (הדר) --- */
+
   header .flex.flex-wrap {
     gap: 0.5rem !important;
   }
 
-  #navHomeBtn, #navLessonBtn, #navQuizBtn, #navTeacherBtn, #cloudStatusBtn {
+  #navHomeBtn,
+  #navLessonBtn,
+  #navQuizBtn,
+  #navTeacherBtn,
+  #cloudStatusBtn {
     padding: 0.45rem 0.7rem !important;
     font-size: 0.85rem !important;
     gap: 0.35rem !important;
@@ -156,6 +240,7 @@ h1, h2, h3, h4, .font-heading {
   }
 
   /* --- חיפוש גלובלי --- */
+
   #globalSearchInput {
     padding: 0.6rem 2.25rem 0.6rem 0.85rem !important;
     font-size: 0.9rem !important;
@@ -174,6 +259,7 @@ h1, h2, h3, h4, .font-heading {
   }
 
   /* --- עמוד הבית: כרזה ראשית --- */
+
   #viewHome .relative.z-10.max-w-2xl {
     max-width: 100% !important;
   }
@@ -187,7 +273,8 @@ h1, h2, h3, h4, .font-heading {
     font-size: 0.95rem !important;
   }
 
-  #heroStartQuizBtn, #heroStartLessonBtn {
+  #heroStartQuizBtn,
+  #heroStartLessonBtn {
     padding: 0.7rem 1rem !important;
     font-size: 0.95rem !important;
     width: 100%;
@@ -195,6 +282,7 @@ h1, h2, h3, h4, .font-heading {
   }
 
   /* --- משבצות זירות --- */
+
   #arenaTilesContainer {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 0.6rem !important;
@@ -213,6 +301,7 @@ h1, h2, h3, h4, .font-heading {
   }
 
   /* --- כרטיסי מושגים --- */
+
   #homeConceptsGrid {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 0.75rem !important;
@@ -236,6 +325,7 @@ h1, h2, h3, h4, .font-heading {
   }
 
   /* --- מסך שיעור (שקפים) --- */
+
   #lessonArenaBadge {
     font-size: 0.78rem !important;
     padding: 0.3rem 0.65rem !important;
@@ -276,12 +366,14 @@ h1, h2, h3, h4, .font-heading {
     line-height: 1.65 !important;
   }
 
-  #prevSlideBtn, #nextSlideBtn {
+  #prevSlideBtn,
+  #nextSlideBtn {
     padding: 0.6rem 0.9rem !important;
     font-size: 0.9rem !important;
   }
 
   /* --- שער כניסה לשאלון --- */
+
   #quizStudentGate {
     padding: 1.25rem !important;
     border-radius: 1.25rem !important;
@@ -295,7 +387,8 @@ h1, h2, h3, h4, .font-heading {
     font-size: 0.9rem !important;
   }
 
-  #studentNameInput, #studentClassSelect {
+  #studentNameInput,
+  #studentClassSelect {
     padding: 0.7rem 0.85rem !important;
     font-size: 0.95rem !important;
   }
@@ -306,7 +399,10 @@ h1, h2, h3, h4, .font-heading {
   }
 
   /* --- שאלון פעיל --- */
-  #quizProgressLabel, #activeStudentBadge, #liveScoreBadge {
+
+  #quizProgressLabel,
+  #activeStudentBadge,
+  #liveScoreBadge {
     font-size: 0.85rem !important;
   }
 
@@ -360,6 +456,7 @@ h1, h2, h3, h4, .font-heading {
   }
 
   /* --- סיכום שאלון --- */
+
   #quizSummaryContainer {
     padding: 1.25rem !important;
     border-radius: 1.25rem !important;
@@ -375,7 +472,8 @@ h1, h2, h3, h4, .font-heading {
     font-size: 2.75rem !important;
   }
 
-  #correctCountSummary, #resultSubtitle {
+  #correctCountSummary,
+  #resultSubtitle {
     font-size: 0.85rem !important;
   }
 
@@ -385,7 +483,9 @@ h1, h2, h3, h4, .font-heading {
   }
 
   /* --- אזור המורה --- */
-  #viewTeacher .p-6, #viewTeacher .sm\:p-10 {
+
+  #viewTeacher .p-6,
+  #viewTeacher .sm\:p-10 {
     padding: 1.1rem !important;
   }
 
@@ -394,10 +494,356 @@ h1, h2, h3, h4, .font-heading {
   }
 
   /* --- מודלים קופצים --- */
+
   .fixed .bg-white.rounded-3xl {
     padding: 1.1rem !important;
     border-radius: 1.25rem !important;
     max-width: 92vw !important;
     font-size: 0.95rem !important;
   }
+}
+
+/*
+   ==========================================================================
+   מצבי תצוגה ידניים (view-mode-mobile / view-mode-web) - הכללים למעלה חלים
+   אוטומטית לפי רוחב המסך בפועל. הבלוקים הבאים הם עותקים זהים של אותם
+   כללים, אך מופעלים גם באופן ידני על ידי כפתור המעבר בהדר (js/app.js),
+   ללא קשר לרוחב המסך האמיתי - כדי לאפשר "כפיית" תצוגת מובייל בדסקטופ
+   או להפך. הם קובצו אוטומטית מתוך אותם כללי המקור, כדי שלא ייווצר סתירה
+   בין שני מקורות האמת.
+   ==========================================================================
+  */
+
+html.view-mode-mobile,
+html.view-mode-mobile body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+html.view-mode-mobile main,
+html.view-mode-mobile header,
+html.view-mode-mobile #viewHome,
+html.view-mode-mobile #viewLesson,
+html.view-mode-mobile #viewQuiz,
+html.view-mode-mobile #viewTeacher {
+  max-width: 100vw !important;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+html.view-mode-mobile {
+  font-size: 18px !important;
+}
+
+html.view-mode-mobile h1,
+html.view-mode-mobile h2,
+html.view-mode-mobile h3,
+html.view-mode-mobile .font-heading {
+  letter-spacing: -0.01em;
+}
+
+html.view-mode-mobile main.max-w-6xl,
+html.view-mode-mobile header .max-w-6xl {
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+}
+
+html.view-mode-mobile main {
+  padding-top: 1rem !important;
+  padding-bottom: 1.25rem !important;
+}
+
+html.view-mode-mobile header .flex.flex-wrap {
+  gap: 0.5rem !important;
+}
+
+html.view-mode-mobile #navHomeBtn,
+html.view-mode-mobile #navLessonBtn,
+html.view-mode-mobile #navQuizBtn,
+html.view-mode-mobile #navTeacherBtn,
+html.view-mode-mobile #cloudStatusBtn {
+  padding: 0.45rem 0.7rem !important;
+  font-size: 0.85rem !important;
+  gap: 0.35rem !important;
+}
+
+html.view-mode-mobile #brandLogoHome {
+  gap: 0.5rem !important;
+}
+
+html.view-mode-mobile #globalSearchInput {
+  padding: 0.6rem 2.25rem 0.6rem 0.85rem !important;
+  font-size: 0.9rem !important;
+}
+
+html.view-mode-mobile #globalSearchResults {
+  max-height: 60vh;
+  font-size: 0.9rem;
+}
+
+html.view-mode-mobile #modulesTabsContainer {
+  gap: 0.35rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  font-size: 0.85rem !important;
+}
+
+html.view-mode-mobile #viewHome .relative.z-10.max-w-2xl {
+  max-width: 100% !important;
+}
+
+html.view-mode-mobile #viewHome h1 {
+  font-size: 1.75rem !important;
+  line-height: 1.25 !important;
+}
+
+html.view-mode-mobile #viewHome p {
+  font-size: 0.95rem !important;
+}
+
+html.view-mode-mobile #heroStartQuizBtn,
+html.view-mode-mobile #heroStartLessonBtn {
+  padding: 0.7rem 1rem !important;
+  font-size: 0.95rem !important;
+  width: 100%;
+  justify-content: center;
+}
+
+html.view-mode-mobile #arenaTilesContainer {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.6rem !important;
+}
+
+html.view-mode-mobile #arenaTilesContainer > button {
+  padding: 0.85rem !important;
+}
+
+html.view-mode-mobile #arenaTilesContainer .text-sm {
+  font-size: 0.92rem !important;
+}
+
+html.view-mode-mobile #arenaTilesContainer .text-\[11px\] {
+  font-size: 0.78rem !important;
+}
+
+html.view-mode-mobile #homeConceptsGrid {
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 0.75rem !important;
+}
+
+html.view-mode-mobile #homeConceptsGrid > div,
+html.view-mode-mobile #arenaTilesContainer + div > div {
+  padding: 1.1rem !important;
+}
+
+html.view-mode-mobile #homeConceptsGrid h3 {
+  font-size: 1.05rem !important;
+}
+
+html.view-mode-mobile #homeConceptsGrid p {
+  font-size: 0.85rem !important;
+}
+
+html.view-mode-mobile #selectedArenaTitle {
+  font-size: 1.15rem !important;
+}
+
+html.view-mode-mobile #lessonArenaBadge {
+  font-size: 0.78rem !important;
+  padding: 0.3rem 0.65rem !important;
+}
+
+html.view-mode-mobile #lessonTitle {
+  font-size: 1.35rem !important;
+  margin-top: 0.35rem !important;
+}
+
+html.view-mode-mobile #cardCounterText {
+  font-size: 0.85rem !important;
+}
+
+html.view-mode-mobile #quickJumpToQuizBtn {
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.85rem !important;
+}
+
+html.view-mode-mobile #lessonSlideCard {
+  padding: 1.1rem !important;
+  min-height: 320px !important;
+  border-radius: 1.25rem !important;
+}
+
+html.view-mode-mobile #slideContentArea {
+  gap: 0.75rem !important;
+}
+
+html.view-mode-mobile #slideContentArea h3,
+html.view-mode-mobile #slideContentArea .text-base {
+  font-size: 1.15rem !important;
+}
+
+html.view-mode-mobile #slideContentArea p,
+html.view-mode-mobile #slideContentArea div {
+  font-size: 0.95rem !important;
+  line-height: 1.65 !important;
+}
+
+html.view-mode-mobile #prevSlideBtn,
+html.view-mode-mobile #nextSlideBtn {
+  padding: 0.6rem 0.9rem !important;
+  font-size: 0.9rem !important;
+}
+
+html.view-mode-mobile #quizStudentGate {
+  padding: 1.25rem !important;
+  border-radius: 1.25rem !important;
+}
+
+html.view-mode-mobile #gateQuizTitle {
+  font-size: 1.45rem !important;
+}
+
+html.view-mode-mobile #quizStudentGate label {
+  font-size: 0.9rem !important;
+}
+
+html.view-mode-mobile #studentNameInput,
+html.view-mode-mobile #studentClassSelect {
+  padding: 0.7rem 0.85rem !important;
+  font-size: 0.95rem !important;
+}
+
+html.view-mode-mobile #startQuestionsBtn {
+  padding: 0.8rem !important;
+  font-size: 0.95rem !important;
+}
+
+html.view-mode-mobile #quizProgressLabel,
+html.view-mode-mobile #activeStudentBadge,
+html.view-mode-mobile #liveScoreBadge {
+  font-size: 0.85rem !important;
+}
+
+html.view-mode-mobile #currentQuestionCard {
+  padding: 1.1rem !important;
+  border-radius: 1.25rem !important;
+  gap: 1rem !important;
+}
+
+html.view-mode-mobile #qCategoryBadge {
+  font-size: 0.78rem !important;
+  padding: 0.3rem 0.6rem !important;
+}
+
+html.view-mode-mobile #showHintBtn {
+  padding: 0.4rem 0.65rem !important;
+  font-size: 0.78rem !important;
+}
+
+html.view-mode-mobile #questionText {
+  font-size: 1.1rem !important;
+  line-height: 1.55 !important;
+}
+
+html.view-mode-mobile #hintBox {
+  padding: 0.8rem !important;
+  font-size: 0.85rem !important;
+}
+
+html.view-mode-mobile #optionsContainer {
+  gap: 0.5rem !important;
+}
+
+html.view-mode-mobile #optionsContainer button {
+  padding: 0.7rem 0.9rem !important;
+  font-size: 0.95rem !important;
+}
+
+html.view-mode-mobile #feedbackBox {
+  padding: 0.85rem !important;
+  font-size: 0.9rem !important;
+}
+
+html.view-mode-mobile #feedbackTitle {
+  font-size: 0.95rem !important;
+}
+
+html.view-mode-mobile #nextQuestionBtn {
+  padding: 0.8rem !important;
+  font-size: 0.95rem !important;
+}
+
+html.view-mode-mobile #quizSummaryContainer {
+  padding: 1.25rem !important;
+  border-radius: 1.25rem !important;
+}
+
+html.view-mode-mobile #resultEmojiBadge {
+  width: 3.75rem !important;
+  height: 3.75rem !important;
+  font-size: 2rem !important;
+}
+
+html.view-mode-mobile #finalGradeText {
+  font-size: 2.75rem !important;
+}
+
+html.view-mode-mobile #correctCountSummary,
+html.view-mode-mobile #resultSubtitle {
+  font-size: 0.85rem !important;
+}
+
+html.view-mode-mobile #restartQuizBtn {
+  padding: 0.65rem 1.1rem !important;
+  font-size: 0.9rem !important;
+}
+
+html.view-mode-mobile #viewTeacher .p-6,
+html.view-mode-mobile #viewTeacher .sm\:p-10 {
+  padding: 1.1rem !important;
+}
+
+html.view-mode-mobile #viewTeacher table {
+  font-size: 0.85rem !important;
+}
+
+html.view-mode-mobile .fixed .bg-white.rounded-3xl {
+  padding: 1.1rem !important;
+  border-radius: 1.25rem !important;
+  max-width: 92vw !important;
+  font-size: 0.95rem !important;
+}
+
+/* --- force web view (desktop) clones --- */
+
+html.view-mode-web header .max-w-6xl,
+html.view-mode-web main.max-w-6xl {
+  max-width: 80rem !important;
+}
+
+html.view-mode-web #viewHome h1 {
+  font-size: 3rem !important;
+}
+
+html.view-mode-web #lessonSlideCard {
+  padding: 3rem !important;
+}
+
+html.view-mode-web #slideContentArea p,
+html.view-mode-web #slideContentArea div {
+  font-size: 1rem !important;
+  line-height: 1.75 !important;
+}
+
+html.view-mode-web #questionText {
+  font-size: 1.35rem !important;
+}
+
+html.view-mode-web #optionsContainer button {
+  font-size: 1rem !important;
+  padding: 1rem 1.25rem !important;
+}
+
+html.view-mode-web #homeConceptsGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }

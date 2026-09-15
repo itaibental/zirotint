@@ -70,11 +70,11 @@
       </div>
     </div>
 
-    <!-- Font-size scale control: lets the user grow/shrink text site-wide by clicking or dragging along the scale -->
-    <div class="max-w-6xl mx-auto px-4 pb-2.5 flex items-center justify-center sm:justify-end gap-2.5" id="fontScaleControl" title="שינוי גודל הטקסט באתר">
-      <span class="text-[11px] sm:text-xs font-bold text-slate-400 shrink-0" aria-hidden="true">גודל טקסט</span>
+    <!-- Font-size scale control: lets the user grow/shrink text in the lesson & quiz views by clicking or dragging along the scale -->
+    <div class="max-w-6xl mx-auto px-4 pb-2.5 flex flex-wrap items-center justify-center sm:justify-end gap-2.5" id="fontScaleControl" title="שינוי גודל הטקסט בשיעור ובשאלון התרגול">
+      <span class="text-[11px] sm:text-xs font-bold text-slate-400 shrink-0" aria-hidden="true">גודל טקסט בשיעור ובשאלון</span>
       <button id="fontScaleDownBtn" type="button" class="text-xs sm:text-sm font-black text-slate-400 hover:text-amber-400 transition shrink-0 w-5 text-center" aria-label="הקטן גודל טקסט">א</button>
-      <input type="range" id="fontScaleSlider" min="0" max="4" step="1" value="1" list="fontScaleTicks" class="w-28 sm:w-40 accent-amber-500 cursor-pointer" aria-label="סקאלה לשינוי גודל הטקסט באתר">
+      <input type="range" id="fontScaleSlider" min="0" max="4" step="1" value="1" list="fontScaleTicks" class="w-28 sm:w-40 accent-amber-500 cursor-pointer" aria-label="סקאלה לשינוי גודל הטקסט בשיעור ובשאלון התרגול">
       <datalist id="fontScaleTicks">
         <option value="0"></option>
         <option value="1"></option>
@@ -84,6 +84,11 @@
       </datalist>
       <button id="fontScaleUpBtn" type="button" class="text-base sm:text-lg font-black text-slate-300 hover:text-amber-400 transition shrink-0 w-6 text-center" aria-label="הגדל גודל טקסט">א</button>
       <span id="fontScaleValueLabel" class="text-[11px] sm:text-xs font-bold text-amber-400 w-10 text-center shrink-0" aria-live="polite">100%</span>
+
+      <button id="viewModeToggleBtn" type="button" class="mr-1 sm:mr-2 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] sm:text-xs font-bold text-slate-300 flex items-center gap-1.5 shrink-0 transition" title="מעבר ידני בין תצוגת נייד לתצוגת מחשב">
+        <span id="viewModeToggleIcon">🖥️</span>
+        <span id="viewModeToggleLabel">תצוגת מחשב</span>
+      </button>
     </div>
 
     <div class="max-w-6xl mx-auto px-4 py-2 border-t border-slate-800/80 flex items-center gap-1.5 overflow-x-auto text-xs font-bold scrollbar-none" id="modulesTabsContainer">
