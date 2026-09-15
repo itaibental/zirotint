@@ -14,6 +14,21 @@ let slideLockSecondsLeft = SLIDE_LOCK_SECONDS;
 let slideLockTouched = false;
 let slideLockActive = false;
 let currentQuestionIndex = 0;
+// currentOptionOrder[displayPosition] = originalIndex - נבנה מחדש בכל renderCurrentQuestion()
+// כדי שסדר התשובות המוצג יהיה מעורבב, בעוד שאלגוריתם הבדיקה עדיין יודע
+// לאתר איזו תשובה (בסדר המוצג) היא זו הנכונה במקור.
+let currentOptionOrder = [];
+
+// ערבוב הוגן (Fisher-Yates) של סדר האפשרויות בכל שאלה, כדי שהתשובה
+// הנכונה לא תופיע תמיד באותו מיקום (למשל תמיד "א").
+function shuffleIndices(n) {
+  const arr = Array.from({ length: n }, (_, i) => i);
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 let quizScore = 0;
 let studentInfo = { name: '', classTag: "י' 1" };
 let isTeacherAuthenticated = false;
@@ -630,23 +645,32 @@ function renderCurrentQuestion() {
   const optsCont = document.getElementById('optionsContainer');
   optsCont.innerHTML = '';
 
-  q.options.forEach((optText, idx) => {
+  // מערבבים את סדר האפשרויות מחדש בכל שאלה, כך שהתשובה הנכונה תופיע
+  // במיקום אקראי (לא תמיד באות א') - ראו shuffleIndices() ו-currentOptionOrder.
+  currentOptionOrder = shuffleIndices(q.options.length);
+
+  currentOptionOrder.forEach((originalIdx, displayIdx) => {
+    const optText = q.options[originalIdx];
     const btn = document.createElement('button');
     btn.className = 'w-full p-3.5 sm:p-4 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 text-xs sm:text-sm font-semibold text-right transition flex items-start gap-3 active:scale-[0.99]';
     btn.innerHTML = `
-      <span class="w-6 h-6 rounded-lg bg-white border border-slate-300 text-slate-600 flex items-center justify-center font-bold text-xs shrink-0">${['א', 'ב', 'ג', 'ד'][idx]}</span>
+      <span class="w-6 h-6 rounded-lg bg-white border border-slate-300 text-slate-600 flex items-center justify-center font-bold text-xs shrink-0">${['א', 'ב', 'ג', 'ד'][displayIdx]}</span>
       <span class="leading-relaxed">${optText}</span>
     `;
-    btn.onclick = () => handleAnswerSelected(idx, btn);
+    btn.onclick = () => handleAnswerSelected(displayIdx, btn);
     optsCont.appendChild(btn);
   });
 }
 
-function handleAnswerSelected(selectedIndex, selectedBtn) {
+function handleAnswerSelected(selectedDisplayIndex, selectedBtn) {
   const mod = learningModules.find(m => m.id === currentModuleId) || learningModules[0];
   const q = mod.questions[currentQuestionIndex];
   const total = mod.questions.length;
-  const isCorrect = (selectedIndex === q.correct);
+
+  // selectedDisplayIndex הוא המיקום המוצג (לאחר הערבוב) - ממירים אותו
+  // חזרה למיקום המקורי במערך q.options כדי לבדוק נכונות כמו קודם.
+  const selectedOriginalIndex = currentOptionOrder[selectedDisplayIndex];
+  const isCorrect = (selectedOriginalIndex === q.correct);
 
   const buttons = document.getElementById('optionsContainer').querySelectorAll('button');
   buttons.forEach(b => b.disabled = true);
@@ -673,8 +697,11 @@ function handleAnswerSelected(selectedIndex, selectedBtn) {
     selectedBtn.classList.remove('bg-slate-50', 'hover:bg-slate-100');
     selectedBtn.classList.add('bg-rose-50', 'border-rose-500', 'text-rose-950', 'ring-2', 'ring-rose-400');
 
-    if (buttons[q.correct]) {
-      buttons[q.correct].classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-950');
+    // buttons[] ממוספר לפי סדר התצוגה המעורבב, לכן מאתרים באיזה מיקום
+    // מוצג נמצאת התשובה הנכונה המקורית (q.correct) לפני הדגשתה.
+    const correctDisplayIndex = currentOptionOrder.indexOf(q.correct);
+    if (buttons[correctDisplayIndex]) {
+      buttons[correctDisplayIndex].classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-950');
     }
 
     feedbackBox.className = "p-4 rounded-2xl text-xs sm:text-sm font-medium leading-relaxed border space-y-1 bg-rose-50 border-rose-300 text-rose-950";
